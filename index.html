@@ -1,0 +1,263 @@
+<html>
+<head>
+<title>parallax</title>
+<script type="text/javascript" src="jquery/jquery-3.1.1.min.js"></script>
+<script type="text/javascript" src="bootstrap/bootstrap.min.js"></script>
+<link rel="stylesheet" href="bootstrap/bootstrap.css">
+<link rel="stylesheet" href="animate.css">
+
+<style>
+
+/*
+key lines making the effect possible
+
+parent-div
+  height: 100%;
+  overflow-y: auto;
+  -webkit-perspective: 1px;
+
+back
+  position: absolute;
+  -webkit-transform: translateZ(-1px);
+
+*/
+
+  .parent-div {
+/*
+position: absolute; only because if position is relative it gets a tiny white border
+
+height:100%; not being there creates 2 scrollbars
+
+overflow-y 
+not being there results in big white block when you scroll down
+*/
+    position: absolute;
+
+    height: 100%;
+    overflow-y: auto;
+/*
+-webkit-perspective
+not being there results in 2 scroll bars and the effect not working at all
+*/
+    -webkit-perspective: 1px;
+
+    font-size: 200%;
+    background-color: white;  
+    color: white;
+
+    top: 0px;
+    left: 0px;
+  }
+
+  .back {
+/*
+position: fixed; is necessary now for .back, otherwise horizontal parallax occurs
+*/
+    position: fixed;
+
+/*
+height: 100%; makes it so the .back content has the same top position as the parent. It also forces the bottom of the page to be where the parent content ends.
+*/ 
+    height: 100%;
+/*
+z-index should be lower then the z-index of the parent, otherwise overlapping may occur
+*/    
+    z-index: -1;
+    -webkit-transform: translateZ(-1px) scale(2);
+     /*
+     scale(2) makes .back content full size (it's not far away anymore). Increasing that number ie -0.96px messes up the scrollbar.
+     Black line on left, hard to fix without messing up scrollbar.
+     */
+  }
+
+@media (min-width: 1600px) {
+  .header {
+    padding: 50px;
+    height: 400px;
+  }
+
+  .content {
+    padding: 50px;
+    height: 1170px;
+  }
+
+  .spacer {
+    height: 550px;
+  }
+
+  .cat-spacer {
+    height: 150px;
+  }
+
+  .picture-spacer {
+    height: 150px;
+  }
+
+  p {
+    padding: 0px 150px 0px 150px;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1599px) {
+  .header {
+    padding: 20px;
+    height: 300px;
+  }
+
+  .content {
+    padding: 20px;
+    height: 1025px;
+  }
+
+  .spacer {
+    height: 475px;
+  }
+
+  .cat-spacer {
+    height: 150px;
+  }
+
+  .picture-spacer {
+    height: 100px;
+  }
+
+  p {
+    padding: 0px 100px 0px 100px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+
+  .header {
+    padding: 20px;
+    height: 500px;
+  }
+
+  .content {
+    padding: 20px;
+    height: 800px;
+  }
+
+  .spacer {
+    height: 475px;
+  }
+
+  .cat-spacer {
+    height: 450px;
+  }
+
+  .picture-spacer {
+    height: 900px;
+  }
+
+  p {
+    padding: 0px 100px 0px 100px;
+  }
+}
+
+@media (min-width: 300px) and (max-width: 767px) {
+
+  .header {
+    padding: 0px;
+    height: 650px;
+  }
+
+  .content {
+    padding: 0px;
+    height: 500px;
+  }
+
+  .spacer {
+    height: 140px;
+  }
+
+  .cat-spacer {
+    height: 550px;
+  }
+
+  .picture-spacer {
+    height: 300px;
+  }
+
+  p {
+    padding: 0px 100px 0px 100px;
+  }
+}
+
+
+  .header {
+    background-color: rgba(255,255,255,1);
+    color: black;
+    width: 100%;
+    box-shadow: 0px 20px 15px rgba(0, 0, 0, 0.35);
+  }
+
+  .content {
+    background-color: rgba(255,255,255,1);
+    color: black;
+    width: 100%;
+    box-shadow: 0px 20px 15px rgba(0, 0, 0, 0.35);
+  }
+
+  p {
+    padding: 0px 100px 0px 100px;
+  }
+
+</style>
+</head>
+
+<body>
+  <div class="parent-div">
+    <div class="back animated fadeIn" style="width:100%;">
+      <div class="cat-spacer"></div>
+      <img src="pics/cat.jpg" style="width:100%;">
+      <img src="pics/dock.jpg" style="width:100%;">
+      <img src="pics/tokyo_street_2.jpg" style="width:100%;">
+      <img src="pics/milan.jpg" style="width:100%;">
+      <div class="picture-spacer"></div>
+      <img src="pics/tokyo_street.jpg" style="width:100%;">
+      <img src="pics/octo.jpg" style="width:100%;">
+      <img src="pics/sky.jpg" style="width:100%;">
+      <div class="picture-spacer"></div>
+      <img src="pics/rome.jpg" style="width:100%;">
+      <div class="picture-spacer"></div>
+      <img src="pics/lion.jpg" style="width:100%;">
+      <img src="pics/stones.jpg" style="width:100%;">
+    </div>
+
+<!--
+the portion below is outside of the .back class
+-->
+    <div class="header animated fadeInUp">
+    <p style="text-align: center">
+    This is the foreground
+    </p>
+    <br>
+    <p>
+      At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+    </p>
+    </div>
+    <div class="spacer"></div>
+    <div class="content"></div>
+    <div class="spacer"></div>
+    <div class="content"></div>
+    <div class="spacer"></div>
+    <div class="content"></div>
+    <div class="spacer"></div>
+    <div class="content"></div>
+    <div class="spacer"></div>
+    <div class="content"></div>
+    <div class="spacer"></div>
+    <div class="content"></div>
+    <div class="spacer"></div>
+    <div class="content"></div>
+    <div class="spacer"></div>
+    <div class="content"></div>
+    <div class="spacer"></div>
+    <div class="content"></div>
+    <div class="spacer"></div>
+    <div class="content"></div>                                           
+  </div>
+
+</body>
+</html>
